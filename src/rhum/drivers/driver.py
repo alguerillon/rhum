@@ -33,6 +33,5 @@ class Driver(threading.Thread):
 
     def parse(self):
         ''' Parses messages and puts them to receive queue '''
-        # Loop while we get new messages
-        while True:
-            self._logger.debug('parse')
+        #while True:
+        #    self._logger.debug('parse')

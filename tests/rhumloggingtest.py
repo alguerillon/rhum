@@ -1,5 +1,5 @@
 import logging
-from rhumlogging import init_logging
+from rhum.rhumlogging import init_logging
 
 log = init_logging()
 log.debug('debug')

@@ -7,3 +7,6 @@ class Message:
     
     def __init__(self):
         self.message = 'test'
+        
+    def build(self):
+        return True

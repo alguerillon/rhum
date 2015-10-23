@@ -19,3 +19,6 @@ class ResponseType(Enum):
     RET_NOT_SUPPORTED=0x02
     RET_WRONG_PARAM=0x03
     RET_OPERATION_DENIED=0x04
+    
+class CommonCommandType(Enum):
+    CD_R_VERSION=0x03

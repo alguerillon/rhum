@@ -30,6 +30,9 @@ class Driver(threading.Thread):
 
     def stop(self):
         self._stop.set()
+        
+    def test(self):
+        return True
 
     def parse(self):
         ''' Parses messages and puts them to receive queue '''

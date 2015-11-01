@@ -1,11 +1,10 @@
 import time
 
 from rhum.utils.daemon import Daemon
-from rhum.rhumlogging import init_logging
-import logging
+from rhum.rhumlogging import get_logger
 
 class RhumDaemon(Daemon):
-    __logger = init_logging(logging.DEBUG, 'rhum.rhum.RhumDaemon')
+    __logger = get_logger('rhum.RhumDaemon')
     
     def run(self):
         self.__load()

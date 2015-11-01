@@ -1,13 +1,12 @@
 import threading
-import logging
 import queue
-from rhum.rhumlogging import init_logging
-from rhum.drivers.message import Message
+from rhum.rhumlogging import get_logger
+from rhum.drivers.enocean.message import EnOceanMessage
 
 class Driver(threading.Thread):
     
     ''' driver class not used directly to standardize any type of protocol '''
-    _logger = init_logging(logging.DEBUG, 'rhum.drivers.Driver')
+    _logger = get_logger('rhum.drivers.Driver')
     
     def __init__(self, callback=None):
         super(Driver, self).__init__()
@@ -22,7 +21,7 @@ class Driver(threading.Thread):
         self.__callback = callback
         
     def send(self, message):
-        if not isinstance(message, Message):
+        if not isinstance(message, EnOceanMessage):
             self._logger.error('Cannot send others objects than Message')
             return False
         self.transmit.put(message)

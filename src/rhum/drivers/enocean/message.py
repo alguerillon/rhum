@@ -1,15 +1,13 @@
-import logging
-from rhum.rhumlogging import init_logging
-from rhum.drivers.message import Message
+from rhum.rhumlogging import get_logger
 from rhum.utils.crc8 import CRC8Utils
 
-class EnOceanMessage(Message):
+class EnOceanMessage:
     
-    _logger = init_logging(logging.DEBUG, 'rhum.drivers.enocean.EnOceanMessage')
+    _logger = get_logger('rhum.drivers.enocean.EnOceanMessage')
     __syncByte = 0x55
     
     def __init__(self, msgType=0xFF, datas=None, optDatas=None):
-        Message.__init__(self)
+        #Message.__init__(self)
         self.__type=msgType
         self.__datas=[]
         self.__optDatas=[]

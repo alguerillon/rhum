@@ -1,7 +1,6 @@
 from rhum.rhumlogging import init_logging
 from threading import Thread, Event
-import logging
-import time
+import logging, time, os
 
 class DriverManager(Thread):
     
@@ -35,4 +34,13 @@ class DriverManager(Thread):
     
     '''search and initiate driver manager'''
     def __search_driver(self):
+        path = os.listdir(path='/dev/')
+        tty = []
+        for file in path:
+            if file.find('AMA') != -1:
+                tty.append(file)
+            elif file.find('USB') != -1:
+                tty.append(file)
+
+        print(tty)
         return True

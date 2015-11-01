@@ -1,5 +1,4 @@
-from rhum.rhumlogging import init_logging
-import logging
+from rhum.rhumlogging import get_logger
 
 ########################
 # class used to encode a string, an int or a bytearray in CRC8
@@ -10,7 +9,7 @@ import logging
 ########################
 class _CRC8:
     
-    _logger = init_logging(logging.INFO, 'rhum.utils.crc8')
+    _logger = get_logger('rhum.utils.crc8')
 
     # CRC8 encode table will keep the calculated CRC8 of each byte to prevent multi calculation
     _crc8Encode = [

@@ -1,5 +1,5 @@
-import serial, logging
-from rhum.rhumlogging import init_logging
+import serial
+from rhum.rhumlogging import get_logger
 
 from rhum.drivers.driver import Driver
 from rhum.drivers.enocean.message import EnOceanMessage
@@ -7,7 +7,7 @@ from rhum.drivers.enocean.constants import PacketType, CommonCommandType
 
 class EnOceanDriver(Driver):
     
-    _logger = init_logging(logging.DEBUG, 'rhum.driver.enocean.EnOceanDriver')
+    _logger = get_logger('rhum.driver.enocean.EnOceanDriver')
     
     def __init__(self, port='/dev/ttyAMA0', callback=None):
         super(EnOceanDriver, self).__init__(callback)

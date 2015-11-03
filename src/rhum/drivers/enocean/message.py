@@ -19,8 +19,9 @@ class EnOceanMessage:
             self.__optDatas = optDatas
             
     def build(self):
-        buffer=[]
-        data_length = len(self.__data)
+        self._logger.debug('building message')
+        buffer = []
+        data_length = len(self.__datas)        
         opt_length = len(self.__optDatas)
         
         #sync byte
@@ -34,11 +35,15 @@ class EnOceanMessage:
         #CRC Header
         buffer.append(CRC8Utils.calc(buffer[1:5]))
         
+        
         #data
-        buffer.append(self.__datas)
-        buffer.append(self.__optDatas)
+        buffer += self.__datas
+        buffer += self.__optDatas
+        
         #CRC Data
         buffer.append(CRC8Utils.calc(buffer[6:]))
+        
+        self._logger.debug('buffer : {0}'.format(buffer))
         
         return buffer
         

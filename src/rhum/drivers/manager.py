@@ -1,11 +1,12 @@
-from rhum.rhumlogging import init_logging
+from rhum.rhumlogging import get_logger
 from threading import Thread, Event
-import logging, time, os
+from rhum.drivers.enocean.driver import EnOceanDriver
+import time, os
 
 class DriverManager(Thread):
     
     ''' Driver Manager Class used to initiate the drivers '''
-    _logger = init_logging(logging.DEBUG, 'rhum.drivers.DriverManager')
+    _logger = get_logger('rhum.drivers.DriverManager')
     
     def __init__(self):
         super(DriverManager, self).__init__()
@@ -42,5 +43,19 @@ class DriverManager(Thread):
             elif file.find('USB') != -1:
                 tty.append(file)
 
-        print(tty)
+        self._logger.debug('List tty')
+        self._logger.debug(len(tty))
+        
+        '''test each tty port to connect with each driver'''
+        for port_path in tty:
+            path = '/dev/{0}'.format(port_path)
+            self._logger.debug('test EnOcean Driver for {0}'.format(path))
+            drive = EnOceanDriver(path)
+            if drive.test():
+                self._logger.info('EnOcean Driver selected for {0}'.format(path))
+                self.__drivers.append(drive)
+                continue
+            
+            self._logger.info('No Driver selected for {0}'.format(path))
+        
         return True

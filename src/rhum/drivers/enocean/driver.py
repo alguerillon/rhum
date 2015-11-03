@@ -14,6 +14,7 @@ class EnOceanDriver(Driver):
         # Initialize serial port
         self.__buffer = []
         self.__port = port
+        self._logger.debug('initialize connection to '.format(port))
         self.__connection = serial.Serial(self.__port, 57600, timeout=0.1)
         
     def run(self):
@@ -31,8 +32,9 @@ class EnOceanDriver(Driver):
         self._logger.info('EnOcean Driver on {0} stopped'.format(self.__port))
         
     def test(self):
-        msg = EnOceanMessage(PacketType.COMMON_COMMAND, [CommonCommandType.CD_R_VERSION])
+        msg = EnOceanMessage(PacketType.COMMON_COMMAND.value, [CommonCommandType.CD_R_VERSION.value])
         buffer = msg.build()
+        self._logger.debug('EnOcean Driver message {0}'.format(buffer))
         
         for index in range(len(buffer)):
             #byte by byte tx

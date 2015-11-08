@@ -1,7 +1,7 @@
 import threading
 import queue
 from rhum.rhumlogging import get_logger
-from rhum.drivers.enocean.message import EnOceanMessage
+from rhum.drivers.enocean.messages.message import EnOceanMessage
 
 class Driver(threading.Thread):
     

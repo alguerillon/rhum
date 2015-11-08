@@ -1,5 +1,6 @@
 from rhum.rhumlogging import get_logger
 from rhum.utils.crc8 import CRC8Utils
+from rhum.drivers.enocean.constants import PacketType
 
 class EnOceanMessage:
     
@@ -7,7 +8,6 @@ class EnOceanMessage:
     __syncByte = 0x55
     
     def __init__(self, msgType=0xFF, datas=None, optDatas=None):
-        #Message.__init__(self)
         self.__type=msgType
         self.__datas=[]
         self.__optDatas=[]
@@ -46,5 +46,13 @@ class EnOceanMessage:
         self._logger.debug('buffer : {0}'.format(buffer))
         
         return buffer
-        
-        
+    
+    def _get(self):
+        return self.__type, self.__datas, self.__optDatas
+
+    def __str__(self):
+        strMsg  = "\nMessage              : {0}".format(bytes(self.build()))
+        strMsg += "\nType                 : {0}".format(PacketType(self.__type))
+        strMsg += "\nData Length          : {0}".format(len(self.__datas))
+        strMsg += "\nOpt Length           : {0}".format(len(self.__optDatas))
+        return strMsg

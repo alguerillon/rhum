@@ -25,12 +25,12 @@ class RhumDaemon(Daemon):
     
     '''Load driver manager to search and initiate drivers'''
     def __load(self):
-        self.__logger.debug('Loading service managers')
+        self.__logger.info('Loading service managers')
         self.__driver_manager.start()
         return True
     
     '''unloading threads correctly corresponding to drivers'''
     def __unload(self):
-        self.__logger.debug('Unloading service managers')
+        self.__logger.info('Unloading service managers')
         self.__driver_manager.stop()
         return True

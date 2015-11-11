@@ -1,5 +1,5 @@
 from rhum.rhumlogging import get_logger
-from rhum.drivers.enocean.messages.response import ResponseMessage
+from rhum.drivers.enocean.messages.responsemessage import ResponseMessage
 
 class VersionMessage(ResponseMessage):
     

@@ -33,4 +33,6 @@ class RhumDaemon(Daemon):
     def __unload(self):
         self.__logger.info('Unloading service managers')
         self.__driver_manager.stop()
+        if self.__driver_manager.isAlive():
+            self.__driver_manager.join()
         return True

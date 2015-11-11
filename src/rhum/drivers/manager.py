@@ -12,10 +12,16 @@ class DriverManager(Thread):
         super(DriverManager, self).__init__()
         # Create an event to stop the thread
         self.__stop = Event()
+        self.__stop.clear()
         self.__drivers = []
         
     def stop(self):
         self.__stop.set()
+        self._logger.info('stopping drivers')
+        for driver in self.__drivers:
+            driver.stop()
+        #self.join()
+                #drv.join()
     
     ''' driver Manager run '''    
     def run(self):
@@ -25,13 +31,13 @@ class DriverManager(Thread):
         #init the drivers searching
         self.__search_driver()
         
+        for drv in self.__drivers:
+            self._logger.info('starting driver {0}'.format(drv))
+            drv.start()
+        
         #while runing pause the manager in waiting command
         while not self.__stop.is_set():
             time.sleep(1)
-        
-        self._logger.info('stopping drivers')
-        for driver in self.__drivers:
-            driver.stop()
     
     '''search and initiate driver manager'''
     def __search_driver(self):

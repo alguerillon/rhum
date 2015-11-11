@@ -69,7 +69,7 @@ class _CRC8:
             if self._crc8Encode[crcByte] == -1:
                 self._calculCRC8(crcByte)
             crc = self._crc8Encode[crcByte]
-        self._logger.info('message : {0} ; crc : {1}'.format(byte, crc))
+        self._logger.debug('message : {0} ; crc : {1}'.format(byte, crc))
         return crc
     
     # #####
@@ -89,7 +89,7 @@ class _CRC8:
     # #####
     # This method calculate the CRC8 of the message and return the result of CRC(msg) = crc
     def check(self, msg, crc):
-        self._logger.info('message to check : "{0}" against {1}'.format(msg, crc))
+        self._logger.debug('message to check : "{0}" against {1}'.format(msg, crc))
         test = self.calcAllTypes(msg)
         return (test == crc)
 

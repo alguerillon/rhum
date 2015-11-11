@@ -3,14 +3,13 @@ from rhum.rhumlogging import get_logger
 
 from rhum.drivers.driver import Driver
 from rhum.drivers.enocean.messages.message import EnOceanMessage
-from rhum.drivers.enocean.messages.VersionMessage import VersionMessage
+from rhum.drivers.enocean.messages.response.VersionMessage import VersionMessage
 
-from rhum.drivers.enocean.constants import PacketType, CommonCommandType,\
-    ResponseType
+from rhum.drivers.enocean.constants import PacketType, CommonCommandType, ResponseType
 from rhum.utils.crc8 import CRC8Utils
 
 import logging
-from rhum.drivers.enocean.messages.response import ResponseMessage
+from rhum.drivers.enocean.messages.typingmessage import TypingMessage
 
 class EnOceanDriver(Driver):
     
@@ -24,19 +23,31 @@ class EnOceanDriver(Driver):
         self._logger.debug('initialize connection to '.format(port))
         self.__connection = serial.Serial(self.__port, 57600, timeout=0)
         
+    def stop(self):
+        Driver.stop(self)
+        self.__connection.close()
+        self._logger.info('EnOcean Driver on {0} stopped'.format(self.__port))
+        
     def run(self):
         self._logger.info('EnOcean Driver started on {0}'.format(self.__port))
         while not self._stop.is_set():
             # Read chars from serial port as hex numbers
             try:
-                bytearray(self.__ser.read(16))
+                msg = self.parse()
+                __type, __datas, __opts = msg._get()
+                
+                msg = TypingMessage.transform(__type, __datas, __opts)
+                
+                self._logger.info(msg)
             except serial.SerialException:
                 self._logger.error('Serial port exception! (device disconnected or multiple access on port?)')
                 break
-            self.parse()
-
-        self.__ser.close()
-        self._logger.info('EnOcean Driver on {0} stopped'.format(self.__port))
+            except Exception:
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                lines = traceback.format_exception(exc_type, exc_value, exc_traceback)
+                for line in lines:
+                    self._logger.error(line)
+            
         
     def test(self):
         msg = EnOceanMessage(PacketType.COMMON_COMMAND.value, [CommonCommandType.CD_R_VERSION.value])

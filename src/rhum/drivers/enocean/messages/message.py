@@ -51,7 +51,8 @@ class EnOceanMessage:
         return self.__type, self.__datas, self.__optDatas
 
     def __str__(self):
-        strMsg  = "\nMessage              : {0}".format(bytes(self.build()))
+        msg = ''.join( [ "\\x%02X" % x for x in bytes(self.build()) ] ).strip()
+        strMsg  = "\nMessage              : {0}".format(msg)
         strMsg += "\nType                 : {0}".format(PacketType(self.__type))
         strMsg += "\nData Length          : {0}".format(len(self.__datas))
         strMsg += "\nOpt Length           : {0}".format(len(self.__optDatas))
